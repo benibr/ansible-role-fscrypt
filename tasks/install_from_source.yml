@@ -1,0 +1,48 @@
+---
+- name: Install dependencies (RedHat)
+  yum:
+    name: "{{ pkgs }}"
+  vars:
+    pkgs:
+      - gcc
+      - make
+      - go
+      - pam-devel
+      - m4
+  when: ansible_os_family == "RedHat"
+
+- name: Clone fscrypt repo
+  git:
+    repo: "{{ fscrypt_git_repository }}"
+    dest: "{{ fscrypt_build_dir }}"
+    version: "{{ fscrypt_git_version }}"
+    force: true
+    update: true
+  register: fscrypt_source
+
+- name: Compile fscrypt
+  changed_when: false
+  shell:
+    cmd: make > make.log 2>&1
+    chdir: "{{ fscrypt_build_dir }}"
+  when: fscrypt_source.changed
+
+- name: Install
+  become_user: root
+  become: yes
+  changed_when: false
+  shell:
+    chdir: "{{ fscrypt_build_dir }}"
+    cmd: make install > make.install.log 2>&1
+  when: fscrypt_source.changed
+
+- name: Link fscrypt bin to avoid $PATH problems
+  file:
+    state: link
+    src: /usr/local/bin/fscrypt
+    dest: /usr/bin/fscrypt
+
+- name: Test if fscrypt is available
+  shell:
+    cmd: "fscrypt --version"
+  changed_when: false

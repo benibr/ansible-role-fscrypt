@@ -1,0 +1,14 @@
+---
+fscrypt_git_repository: https://github.com/google/fscrypt.git
+fscrypt_git_version: master
+fscrypt_build_dir: /tmp/fscrypt.git
+
+fscrypt_force_filesystem_setup: false
+fscrypt_force_directory_setup: true
+
+# List of directories to unlock
+# fscrypt_unlock_directories:
+# Example:
+# fscrypt_unlock_directories:
+#   - dir: /mnt/test
+#     password: foobar

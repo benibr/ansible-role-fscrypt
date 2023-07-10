@@ -1,0 +1,13 @@
+---
+- name: Check if directory is already unlocked
+  shell:
+    cmd: "fscrypt status {{ item.dir }} | grep -qF 'Unlocked: Yes'"
+  register: dir_unlocked
+  changed_when: false
+  ignore_errors: true
+- name: Unlocking directory ({{ item.dir }}) with password
+  shell:
+    cmd: >
+      echo {{ item.password }} | /usr/local/bin/fscrypt unlock --user=root --quiet {{ item.dir }}
+  no_log: true
+  when: dir_unlocked.rc != 0
