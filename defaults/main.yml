@@ -6,8 +6,15 @@ fscrypt_build_dir: /tmp/fscrypt.git
 fscrypt_force_filesystem_setup: false
 fscrypt_force_directory_setup: true
 
+# List of directories to encrypt
+fscrypt_encrypt_directories: []
+# Example:
+# fscrypt_encrypt_directories:
+#   - dir: /mnt/test
+#     user: user01
+#     password: foobar
 # List of directories to unlock
-# fscrypt_unlock_directories:
+fscrypt_unlock_directories: "{{ fscrypt_encrypt_directories }}"
 # Example:
 # fscrypt_unlock_directories:
 #   - dir: /mnt/test
