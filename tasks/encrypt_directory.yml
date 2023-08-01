@@ -1,4 +1,8 @@
 ---
+- name: Setup fscrypt (/etc/fscrypt.conf)
+  shell:
+    cmd: fscrypt setup --all-users --quiet
+  ignore_errors: true
 - name: Ensure directory is existing
   file:
     state: directory
