@@ -8,6 +8,6 @@
 - name: Unlocking directory ({{ item.dir }}) with password
   shell:
     cmd: >
-      echo {{ item.password }} | /usr/local/bin/fscrypt unlock --user=root --quiet {{ item.dir }}
+      echo {{ item.password }} | fscrypt unlock --user=root --quiet {{ item.dir }}
   no_log: true
   when: dir_unlocked.rc != 0
