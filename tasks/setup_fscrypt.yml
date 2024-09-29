@@ -3,6 +3,11 @@
     cmd: fscrypt setup --all-users --quiet
   ignore_errors: true
 
+- name: Ensure directory is existing
+  file:
+    state: directory
+    name: "{{ item.dir }}"
+
 - name: Get filesystem type
   shell:
     cmd: "findmnt -mlno FSTYPE --target {{ item.dir }}"

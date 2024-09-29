@@ -1,8 +1,4 @@
 ---
-- name: Ensure directory is existing
-  file:
-    state: directory
-    name: "{{ item.dir }}"
 - name: Get mountpoint
   shell:
     cmd: "findmnt -mlno TARGET --target {{ item.dir }}"
