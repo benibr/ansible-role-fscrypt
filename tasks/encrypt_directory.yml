@@ -10,7 +10,8 @@
   ignore_errors: true
 - name: Encrypt directory
   shell:
-    cmd: "echo '{{ item.password }}' | fscrypt encrypt --quiet --user={{ item.user }} --source=custom_passphrase --name {{ item.dir | basename }} --skip-unlock {{ item.dir }}"
+    # FIXME: the name might fail if dir is just /
+    cmd: "echo '{{ item.password }}' | fscrypt encrypt --quiet --user={{ item.user }} --source=custom_passphrase --name {{ item.dir }} --skip-unlock {{ item.dir }}"
   register: encrypted
   changed_when: false
   ignore_errors: true
