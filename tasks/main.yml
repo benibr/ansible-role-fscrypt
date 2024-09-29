@@ -15,12 +15,6 @@
   loop: "{{ fscrypt_encrypt_directories }}"
   when: fscrypt_encrypt_directories | length > 0
 
-      #- name: Setup fscrypt on mountpoint ({{ item }})
-      #  include_tasks:
-      #    file: "{{ encrypt_directory }}"
-      #  loop: fscrypt_filesystems
-      #  when: fscrypt_force_filesystem_setup == true
-
 - name: Create encryption on directory
   include_tasks:
     file: encrypt_directory.yml
