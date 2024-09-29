@@ -1,7 +1,12 @@
 ---
+- name: Install fscrypt (via apt)
+  include_tasks:
+    file: install_from_apt.yml
+  when: ansible_facts['os_family'] == "Debian"
 - name: Install fscrypt from source
   include_tasks:
     file: install_from_source.yml
+  when: ansible_facts['os_family'] != "Debian"
       #- name: Setup fscrypt on mountpoint ({{ item }})
       #  include_tasks:
       #    file: "{{ encrypt_directory }}"
