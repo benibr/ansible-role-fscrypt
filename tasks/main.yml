@@ -1,8 +1,4 @@
 ---
-- name: Install dependencies
-  package:
-    name: git
-    state: present
 - name: Install fscrypt from source
   include_tasks:
     file: install_from_source.yml

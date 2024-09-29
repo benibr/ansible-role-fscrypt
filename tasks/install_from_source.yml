@@ -9,6 +9,7 @@
       - go
       - pam-devel
       - m4
+      - git
   when: ansible_os_family == "RedHat"
 
 - name: Clone fscrypt repo
