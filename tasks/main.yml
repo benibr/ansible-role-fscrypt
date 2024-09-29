@@ -3,20 +3,30 @@
   include_tasks:
     file: install_from_apt.yml
   when: ansible_facts['os_family'] == "Debian"
+
 - name: Install fscrypt from source
   include_tasks:
     file: install_from_source.yml
   when: ansible_facts['os_family'] != "Debian"
+
+- name: Setup fscrypt
+  include_tasks:
+    file: setup_fscrypt.yml
+  loop: "{{ fscrypt_encrypt_directories }}"
+  when: fscrypt_encrypt_directories | length > 0
+
       #- name: Setup fscrypt on mountpoint ({{ item }})
       #  include_tasks:
       #    file: "{{ encrypt_directory }}"
       #  loop: fscrypt_filesystems
       #  when: fscrypt_force_filesystem_setup == true
+
 - name: Create encryption on directory
   include_tasks:
     file: encrypt_directory.yml
   loop: "{{ fscrypt_encrypt_directories }}"
   when: fscrypt_encrypt_directories | length > 0
+
 - name: Unlock directory ({{ item }})
   include_tasks:
     file: unlock_directory.yml

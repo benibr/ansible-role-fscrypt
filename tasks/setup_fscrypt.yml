@@ -1,0 +1,21 @@
+- name: Setup fscrypt (/etc/fscrypt.conf)
+  shell:
+    cmd: fscrypt setup --all-users --quiet
+  ignore_errors: true
+
+- name: Get filesystem type
+  shell:
+    cmd: "findmnt -mlno FSTYPE --target {{ item.dir }}"
+  register: fs_type
+  changed_when: false
+
+- name: Get filesystem blockdevice
+  shell:
+    cmd: "findmnt -mlno SOURCE --target {{ item.dir }}"
+  register: fs_blockdev
+  changed_when: false
+
+- name: enable fscrypt on ext4
+  command:
+    cmd: "tune2fs -O encrypt {{ fs_blockdev.stdout }}"
+  when: fs_type.stdout == "ext4"
